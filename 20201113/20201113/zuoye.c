@@ -55,7 +55,7 @@ int main(){
 }*/
 //求出0～100000之间的所有“水仙花数”并输出。“水仙花数”是指一个n位数，其各位数字的n次方之和确好等于该数本身
 //如:153＝1 ^ 3＋5 ^ 3＋3 ^ 3，则153是一个“水仙花数”。
-/*void Water(){
+void Water(){
 	for (int i = 0; i <= 100000;++i){
 		int num = 0;
 		int n = i;
@@ -79,7 +79,7 @@ int main(){
 	Water();
 	system("pause");
 	return 0;
-}*/
+}
 //打印菱形 用C语言在屏幕上输出以下图案：
 /*void PrintLX1(int n){//正三角
 	for (int i = 1; i <=n;++i){
@@ -159,7 +159,7 @@ int main(){
 	return 0;
 }*/
 //调整数组使奇数全部都位于偶数前面。使得数组中所有的奇数位于数组的前半部分，所有偶数位于数组的后半部分。
-void Ec(int *num,int len){
+/*void Ec(int *num,int len){
 	int nu[10000] = {0};
 	int i, j=0;
 	for (i = 0; i < len;++i){
@@ -188,5 +188,5 @@ int main(){
 	printf("\n");
 	system("pause");
 	return 0;
-}
+}*/
 
