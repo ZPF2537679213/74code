@@ -111,6 +111,18 @@ num(123);
     //输出描述:
     //(-8+22)×a-10+c÷2计算之后的结果，为一个整数。
     public static void main(String[] args) {
-        System.out.printf("%d\n",(-8+22)*40-10+212/2);
+        // System.out.printf("%d\n",(-8+22)*40-10+212/2);
+       /* Scanner input=new Scanner(System.in);
+        String str="kfhklf,fgf,fg,fg,fg,gfgf";
+        String [] s=str.split(",",4);
+        for(int i=0;i<s.length;++i){
+            System.out.println(s[i]);
+        }*/
+     int  a=10,b=20;
+     a=a+b;
+     b=a-b;
+     a=a-b;
+        System.out.println("a="+a+"");
+        System.out.println(b);
     }
 }
