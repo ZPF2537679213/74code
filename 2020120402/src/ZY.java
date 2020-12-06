@@ -8,7 +8,7 @@ public class ZY {
         //ShowSS();
         //System.out.println(SuShu());
        // Age();
-        //ShowX();
+        ShowX();
         //CN();
        // WN();
         //Sum();
@@ -187,7 +187,8 @@ public class ZY {
         x=x^y;
         y=x^y;
         x=x^y;
-            }int c;
+            }
+        int c=0;
         while(x%y!=0){
             c=x%y;
            x=y;
