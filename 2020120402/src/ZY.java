@@ -187,12 +187,13 @@ public class ZY {
         x=x^y;
         y=x^y;
         x=x^y;
-            }
+            }int c;
         while(x%y!=0){
+            c=x%y;
            x=y;
-           y=x/y;
+           y=c;
         }
-        System.out.println(y);
+        System.out.println(c);
     }
     //求一个整数，在内存当中存储时，二进制1的个数。
     public static int TO(int x){
