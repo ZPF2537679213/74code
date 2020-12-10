@@ -40,13 +40,82 @@ BT *CreatBT(int *num,int n){
 	}
 	return r;
 }
-void Show(BT *r){//Ç°Ðò±éÀú¶þ²æÊ÷
+void Show1(BT *r){//µÝ¹éÇ°Ðò±éÀú¶þ²æÊ÷
 	if (!r){
 		return;
 	}
 	printf("%d->",r->data);
-	Show(r->left);
-	Show(r->right);
+	Show1(r->left);
+	Show1(r->right);
+}
+void fShow1(BT *r){//·ÇµÝ¹éÇ°Ðò±éÀú¶þ²æÊ÷
+	assert(r!=NULL);
+	BT* statck[1024],*node;
+	int top = -1;
+	statck[++top] = r;
+	while (top>-1){
+		node = statck[top--];
+		printf("%d->",node->data);
+		if (node->right!=NULL){
+			statck[++top] = node->right;
+		}
+		if (node->left!=NULL){
+			statck[++top] = node->left;
+		}
+	}
+	printf("\n");
+}
+void Show2(BT*r){//ÖÐÐòµÝ¹é
+	if (r==NULL){
+		return;
+	}
+	else{
+		Show2(r->left);
+		printf("%d->",r->data);
+		Show2(r->right);
+	}
+}
+void fShow2(BT*r){//ÖÐÐò·ÇµÝ¹é
+	assert(r!=NULL);
+	BT*statck[1024],*node;
+	int top = -1;
+	node = r;
+	while (top>-1||node!=NULL){
+		while(node!=NULL){
+			statck[++top] = node;
+			node = node->left;
+		}
+		node = statck[top--];
+		printf("%d->",node->data);
+			node = node->right;
+	}
+	printf("\n");
+}
+void Show3(BT*r){//ºóÐò±éÀúµÝ¹é
+	if (r==NULL){
+		return;
+	}
+	else{
+		Show3(r->left);
+		Show3(r->right);
+		printf("%d->",r->data);
+	}
+}
+void fShow3(BT*r){//ºóÐò±éÀú·ÇµÝ¹é
+	assert(r!=NULL);
+	BT*statck[1024], *node;
+	int top = -1;
+	node = r;
+	while (top > -1||node!=NULL){
+		while (node!=NULL){
+			statck[++top] = node;
+			node = node->right;
+		}
+		node = statck[top--];
+		printf("%d->",node->data);
+		node = node->left;
+	}
+	printf("\n");
 }
 int main(void){
 	int n;
@@ -58,7 +127,21 @@ int main(void){
 	for (int i = 0; i < n;++i){
 		scanf("%d",num+i);
 	}
-	Show(CreatBT(num, n));
+	printf("Ç°ÐòµÝ¹é£º");
+	Show1(CreatBT(num, n));
+	printf("\n");
+	printf("Ç°Ðò·ÇµÝ¹é£º");
+	fShow1(CreatBT(num, n));
+	printf("ÖÐÐòµÝ¹é£º");
+	Show2(CreatBT(num, n));
+	printf("\n");
+	printf("ÖÐÐò·ÇµÝ¹é£º");
+	fShow2(CreatBT(num, n));
+	printf("ºóÐòµÝ¹é£º");
+	Show3(CreatBT(num, n));
+	printf("\n");
+	printf("ºóÐò·ÇµÝ¹é£º");
+	fShow3(CreatBT(num, n));
 	free(num);
 	num = NULL;
 	system("pause");
