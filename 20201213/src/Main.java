@@ -57,11 +57,11 @@ public class Main {
     }
     //实现一个方法 copyOf, 对一个整型数组进行拷贝, 得到一个新的数组.
     public static int[] myCopy(int []num,int len){
-     int []n=new int[len];
-     for(int i=0;i<len;++i){
-        n[i]=num[i];
-     }
-     return n;
+        int []n=new int[len];
+        for(int i=0;i<len;++i){
+            n[i]=num[i];
+        }
+        return n;
     }
     //实现一个方法 toString, 把一个整型数组转换成字符串. 例如数组 {1, 2, 3} , 返回的字符串为 "[1, 2, 3]", 注意 逗号 的位置和数量.
     public static String myToString(int []num){
