@@ -3,7 +3,8 @@ public class Main {
     public static void main(String[] args) {
        // KiKi();
         //FG();
-        Age();
+       // Age();
+        Sec();
     }
     //题目描述
     //  问题：KiKi今年5岁了，已经能够认识100以内的非负整数，并且并且能够进行 100 以内的非负整数的加法计算。不过，BoBo老师发现KiKi在进行大于等于100的正整
@@ -50,5 +51,19 @@ public class Main {
         Scanner input=new Scanner(System.in);
         int age=input.nextInt();
         System.out.println((long)(age*3.156*(Math.pow(10,7))));
+    }
+    //题目描述
+    //给定秒数seconds (0< seconds < 100,000,000)，把秒转化成小时、分钟和秒。
+    //输入描述:
+    //一行，包括一个整数，即给定的秒数。
+    //输出描述:
+    //一行，包含三个整数，依次为输入整数对应的小时数、分钟数和秒数（可能为零），中间用一个空格隔开。
+    public static void Sec(){
+        Scanner input=new Scanner(System.in);
+        int sec=input.nextInt();
+        int hour=sec/3600;
+        int minute=(sec%3600)/60;
+        int secound=(sec%3600)%60;
+        System.out.println(hour+" "+minute+" "+secound);
     }
 }
