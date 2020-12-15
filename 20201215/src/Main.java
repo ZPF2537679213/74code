@@ -4,7 +4,8 @@ public class Main {
        // KiKi();
         //FG();
        // Age();
-        Sec();
+       // Sec();
+        course();
     }
     //题目描述
     //  问题：KiKi今年5岁了，已经能够认识100以内的非负整数，并且并且能够进行 100 以内的非负整数的加法计算。不过，BoBo老师发现KiKi在进行大于等于100的正整
@@ -65,5 +66,19 @@ public class Main {
         int minute=(sec%3600)/60;
         int secound=(sec%3600)%60;
         System.out.println(hour+" "+minute+" "+secound);
+    }
+    //题目描述
+    //依次输入一个学生的3科成绩，在屏幕上输出该学生的总成绩以及平均成绩。
+    //输入描述:
+    //一行，3科成绩，成绩之间用一个空格隔开。
+    //输出描述:
+    //一行，总成绩和平均成绩（小数点后保留两位），用一个空格隔开。
+    public static void course(){
+        Scanner input=new Scanner(System.in);
+        double x=input.nextDouble();
+        double y=input.nextDouble();
+        double z=input.nextDouble();
+        double sum=x+y+z;
+        System.out.printf("%.2f %.2f\n",sum,sum/3.0);
     }
 }
