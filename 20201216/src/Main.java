@@ -3,7 +3,8 @@ public class Main {
     public static void main(String[] args) {
         //KiKi();
         //Long();
-        equal();
+        //equal();
+        SJZ();
     }
     //题目描述
     //KiKi现在得到一个包含n*m个数的整数序列，现在他需要把这n*m个数按顺序规划成一个n行m列的矩阵并输出，请你帮他完成这个任务。
@@ -78,6 +79,32 @@ public class Main {
             for(int j=0;j<m;++j){
                 int x=input.nextInt();
                 if(x!=num[i][j]){
+                    str="No";
+                }
+            }
+        }
+        System.out.println(str);
+    }
+    //题目描述
+    //KiKi想知道一个n阶方矩是否为上三角矩阵，请帮他编程判定。上三角矩阵即主对角线以下的元素都为0的矩阵，主对角线为从矩阵的左上角至右下角的连线。
+    //输入描述:
+    //第一行包含一个整数n，表示一个方阵包含n行n列，用空格分隔。 (1≤n≤10)
+    //从2到n+1行，每行输入n个整数（范围-231~231-1），用空格分隔，共输入n*n个数。
+    //输出描述:
+    //一行，如果输入方阵是上三角矩阵输出"YES"并换行，否则输出"NO"并换行。
+    public static void SJZ(){
+        Scanner input=new Scanner(System.in);
+        int n=input.nextInt();
+        int[][]num=new int[n][n];
+        for(int i=0;i<n;++i){
+            for(int j=0;j<n;++j){
+             num[i][j]=input.nextInt();
+            }
+        }
+        String str="Yes";
+        for(int i=0;i<n;++i){
+            for(int j=0;j<i;++j){
+                if(num[i][j]!=0){
                     str="No";
                 }
             }
