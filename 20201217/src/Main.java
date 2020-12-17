@@ -3,7 +3,13 @@ public class Main {
     public static void main(String[] args) {
         //KiKi();
         //yangHui();
-        jZQ();
+        //jZQ();
+       /* Scanner input=new Scanner(System.in);
+        int n=input.nextInt();
+        LiuJin(n);*/
+        Scanner input=new Scanner(System.in);
+        long n=input.nextLong();
+        System.out.println(sum(n));
     }
     //题目描述
     //KiKi有一个矩阵，他想知道经过k次行变换或列变换后得到的矩阵。请编程帮他解答。
@@ -126,5 +132,31 @@ public class Main {
              System.out.println("No winner!");
          }
      }
+    }
+    //题目描述
+    //小乐乐在课上学习了二进制八进制与十六进制后，对进制转换产生了浓厚的兴趣。因为他的幸运数字是6，所以他想知道一个数表示为六进制后的结果。请你帮助他
+    // 解决这个问题。
+    //输入描述:
+    //输入一个正整数n  (1 ≤ n ≤ 109)
+    //输出描述:
+    //输出一行，为正整数n表示为六进制的结果
+    public static void LiuJin(int n){
+        if(n!=0){
+        LiuJin(n/6);
+            System.out.print(n%6);
+        }
+    }
+    //题目描述
+    //小乐乐最近接触了求和符号Σ，他想计算的结果。但是小乐乐很笨，请你帮助他解答。
+    //输入描述:
+    //输入一个正整数n  (1 ≤ n ≤ 109)
+    //输出描述:
+    //输出一个值，为求和结果。
+    public static long sum(long n){
+       long sum=0;
+        for(long i=1;i<=n;++i){
+           sum+=i;
+       }
+        return sum;
     }
 }
