@@ -3,7 +3,8 @@ public class Main {
     public static void main(String[] args) {
         //time();
         //dT();
-        sum();
+        //sum();
+        changeNum();
     }
     //题目描述
     //小乐乐比较懒惰，他现在想睡觉，然后再去学习。他知道现在的时刻，以及自己要睡的时长，想设定一个闹钟叫他起床学习，但是他太笨了，不知道应该把闹钟设
@@ -80,5 +81,24 @@ public class Main {
            }
        }
         System.out.println(b+l);
+    }
+    //题目描述
+    //小乐乐喜欢数字，尤其喜欢0和1。他现在得到了一个数，想把每位的数变成0或1。如果某一位是奇数，就把它变成1，如果是偶数，那么就把它变成0。请你回答他
+    // 最后得到的数是多少。
+    //输入描述:
+    //输入包含一个整数n (0 ≤ n ≤ 109)
+    //输出描述:
+    //输出一个整数，即小乐乐修改后得到的数字。
+    public static void changeNum(){
+        Scanner input=new Scanner(System.in);
+        int n=input.nextInt();
+        while(n!=0){
+            if((n%10)%2==0){
+                System.out.print(0);
+            }else{
+                System.out.print(1);
+            }
+            n/=10;
+        }
     }
 }
