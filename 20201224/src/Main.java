@@ -8,9 +8,14 @@ public class Main {
         //static int i = 0;//报错
    //Main text=new Main(88);
       //  System.out.println(text.count);
-      int []num={1,2,3,4,5,6,7,8,9,10};
+      /*int []num={1,2,3,4,5,6,7,8,9,10};
         numJ(num);
-        System.out.println(Arrays.toString(num));
+        System.out.println(Arrays.toString(num));*/
+        int[]num1={1,3,5,7,9};
+        int[]num2={2,4,6,8,10};
+        exchangeNum(num1,num2);
+        System.out.println(Arrays.toString(num1));
+        System.out.println(Arrays.toString(num2));
     }
     //Main(int a){
     //    count=a;
@@ -35,5 +40,13 @@ public class Main {
               }
           }
       }
+    }
+    //给定两个整型数组, 交换两个数组的内容.
+    public static void exchangeNum(int[]num1,int[]num2){
+       for(int i=0;i<num1.length;++i){
+           num1[i]^=num2[i];
+           num2[i]^=num1[i];
+           num1[i]^=num2[i];
+       }
     }
 }
