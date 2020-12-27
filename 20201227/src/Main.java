@@ -8,7 +8,14 @@ public class Main {
         System.out.println(goSteps(n));*/
       //  mySort();
         //twoNum();
-        sumJC();
+       // sumJC();
+        Scanner input=new Scanner(System.in);
+        int a=input.nextInt();
+        int b=input.nextInt();
+        int c=input.nextInt();
+        double m=max3(a+b,b,c)/(max3(a,b+c,c)+max3(a,b,b+c));
+        int x=(int)(m*100);
+        System.out.println(x/100+"."+x%100);
     }
     //题目描述
     //小乐乐上课需要走n阶台阶，因为他腿比较长，所以每次可以选择走一阶或者走两阶，那么他一共有多少种走法？
@@ -101,5 +108,15 @@ public class Main {
             sum+=jc;
         }
         System.out.println(sum);
+    }
+    //题目描述
+    //小乐乐学会了自定义函数，BoBo老师给他出了个问题，根据以下公式计算m的值。
+    //其中 max3函数为计算三个数的最大值，如： max3(1, 2, 3) 返回结果为3。
+    //输入描述:
+    //一行，输入三个整数，用空格隔开，分别表示a, b, c。
+    //输出描述:
+    //一行，一个浮点数，小数点保留2位，为计算后m的值。
+    public static double max3(int a,int b,int c){
+        return Math.max(Math.max(a,b),c);
     }
 }
