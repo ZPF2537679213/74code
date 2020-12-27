@@ -7,7 +7,8 @@ public class Main {
    int n=input.nextInt();
         System.out.println(goSteps(n));*/
       //  mySort();
-        twoNum();
+        //twoNum();
+        sumJC();
     }
     //题目描述
     //小乐乐上课需要走n阶台阶，因为他腿比较长，所以每次可以选择走一阶或者走两阶，那么他一共有多少种走法？
@@ -81,5 +82,24 @@ public class Main {
                }
             }
         }
+    }
+    //题目描述
+    //小乐乐想计算一下1!+2!+3!+...+n!。
+    //输入描述:
+    //一行，一个整数n。
+    //输出描述:
+    //一行，一个整数，表示1!+2!+3!+...+n!的结果。
+    public static void sumJC(){
+        Scanner input=new Scanner(System.in);
+        int n=input.nextInt();
+        int sum=0;
+        for(int i=1;i<n+1;++i){
+            int jc=1;
+            for(int j=i;j>0;--j){
+                jc*=j;
+            }
+            sum+=jc;
+        }
+        System.out.println(sum);
     }
 }
