@@ -1,0 +1,73 @@
+给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。
+
+示例 1：
+
+输入：nums = [-4,-1,0,3,10]
+输出：[0,1,9,16,100]
+解释：平方后，数组变为 [16,1,0,9,100]
+排序后，数组变为 [0,1,9,16,100]
+
+示例 2：
+
+输入：nums = [-7,-3,2,3,11]
+输出：[4,9,9,49,121]
+
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+    int []num=new int[nums.length];
+    int i=0;
+    for(int x:nums){
+    num[i]=(int)Math.pow(x,2);
+    i++;
+    }
+    Arrays.sort(num);
+    return num;
+    }
+}
+给定一个字符串?S，返回?“反转后的”?字符串，其中不是字母的字符都保留在原地，而所有字母的位置发生反转。
+
+?
+
+
+示例 1：
+
+输入："ab-cd"
+输出："dc-ba"
+
+示例 2：
+
+输入："a-bC-dEf-ghIj"
+输出："j-Ih-gfE-dCba"
+
+示例 3：
+
+输入："Test1ng-Leet=code-Q!"
+输出："Qedo1ct-eeLg=ntse-T!"
+class Solution {
+    public String reverseOnlyLetters(String S) {
+   StringBuilder str=new StringBuilder();
+   Stack<Character>stack=new Stack<>();
+   Queue<Character>queue=new LinkedList<>();
+   for(int i=0;i<S.length();++i){
+   char ch=S.charAt(i);
+   if(ch>='A'&&ch<='Z'||ch>='a'&&ch<='z'){
+    stack.push(ch);
+   }
+   queue.offer(ch);
+   }
+   char chq=' ';
+   char chs=' ';
+   while(!queue.isEmpty()){
+       chq=queue.poll();
+       if(chq>='A'&&chq<='Z'||chq>='a'&&chq<='z'){
+         chs=stack.pop();  
+       }
+    if(chq>'Z'&&chq<'a'||chq<'A'||chq>'z'){
+     str=str.append(chq+"");
+    }else{
+        str=str.append(chs+"");
+    }
+   }
+   return str.toString();
+    }
+}
