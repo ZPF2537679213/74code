@@ -1,0 +1,50 @@
+给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础上加一。
+
+
+最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
+
+
+你可以假设除了整数 0 之外，这个整数不会以零开头。
+class Solution {
+    public int[] plusOne(int[] digits) {
+     if(digits[digits.length-1]+1<10){
+     digits[digits.length-1]+=1;
+     return digits;
+     }else{
+         int i=digits.length-1;
+         while(i>=0&&digits[i]+1==10){
+          digits[i]=0;
+          i--;
+         }
+         if(i>=0){
+          digits[i]+=1;
+          return digits;
+         }else{
+             digits=Arrays.copyOf(digits,digits.length+1);
+             digits[0]=1;
+             return digits;
+         }
+     }
+    }
+}
+给你一个非空数组，返回此数组中 第三大的数 。如果不存在，则返回数组中最大的数。
+class Solution {
+    public int thirdMax(int[] nums) {
+    Set<Integer>set=new HashSet<>();
+    for(int x:nums){
+    set.add(x);
+    }
+    int []num=new int[set.size()];
+    int i=0;
+    for(int x:set){
+    num[i]=x;
+    i++;
+    }
+    Arrays.sort(num);
+    if(set.size()<3){
+    return num[i-1];
+    }else{
+        return num[i-3];
+    }
+    }
+}
