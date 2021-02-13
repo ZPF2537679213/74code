@@ -1,13 +1,8 @@
+import java.util.*;
 public class Main {
     public static void main(String[] args) {
-        int re=1;
-        int len=0;
-        while(len<=10){
-           re=re*10+re;
-            System.out.println(re);
-            len++;
-        }
-        System.out.println(re);
+        String s="jghjhg";
+       StringBuilder str=new StringBuilder();
     }
 }
 //请你来实现一个 myAtoi(string s) 函数，使其能将字符串转换成一个 32 位有符号整数（类似 C/C++ 中的 atoi 函数）。
