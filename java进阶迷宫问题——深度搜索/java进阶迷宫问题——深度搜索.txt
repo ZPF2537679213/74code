@@ -1,0 +1,93 @@
+题目描述
+定义一个二维数组N*M（其中2<=N<=10;2<=M<=10），如5 × 5数组下所示：
+
+
+int maze[5][5] = {
+0, 1, 0, 0, 0,
+0, 1, 0, 1, 0,
+0, 0, 0, 0, 0,
+0, 1, 1, 1, 0,
+0, 0, 0, 1, 0,
+};
+
+
+它表示一个迷宫，其中的1表示墙壁，0表示可以走的路，只能横着走或竖着走，不能斜着走，要求编程序找出从左上角到右下角的最短路线。入口点为[0,0],既第一空格是可以走的路。
+
+
+本题含有多组数据。
+
+输入描述:
+输入两个整数，分别表示二位数组的行数，列数。再输入相应的数组，其中的1表示墙壁，0表示可以走的路。数据保证有唯一解,不考虑有多解的情况，即迷宫只有一条通道。
+
+输出描述:
+左上角到右下角的最短路径，格式如样例所示。
+示例1
+输入
+5 5
+0 1 0 0 0
+0 1 0 1 0
+0 0 0 0 0
+0 1 1 1 0
+0 0 0 1 0
+输出
+(0,0)
+(1,0)
+(2,0)
+(2,1)
+(2,2)
+(2,3)
+(2,4)
+(3,4)
+(4,4)
+代码：
+import java.util.*;
+class Node{
+    public int x;
+    public int y;
+    public Node(int x,int y){
+        this.x=x;
+        this.y=y;
+    }
+}
+public class Main{
+    public static int[][]nn={{0,-1},{-1,0}};
+    public static void main(String[]args){
+        Scanner input=new Scanner(System.in);
+        while(input.hasNextInt()){
+            int n=input.nextInt();
+        int m=input.nextInt();
+        int[][]num=new int[n][m];
+        int[][]visit=new int[n][m];
+        Stack<Node>stack=new Stack<>();
+        for(int i=0;i<n;++i){
+            for(int j=0;j<m;++j){
+                num[i][j]=input.nextInt();
+            }
+        }
+      Node end=new Node(n-1,m-1);
+        stack.push(end);
+        while(!stack.isEmpty()){
+            int x=stack.peek().x;
+            int y=stack.peek().y;
+            visit[x][y]=1;
+            if(x==0&&y==0) break;
+            int len=stack.size();
+            for(int i=0;i<2;++i){
+                int nx=x+nn[i][0];
+                int ny=y+nn[i][1];
+                if(nx>=0&&nx<n&&ny>=0&&ny<m&&num[nx][ny]==0&&visit[nx][ny]==0){
+                    Node cur=new Node(nx,ny);
+                    stack.push(cur);
+                }
+            }
+            if(len==stack.size()){
+                stack.pop();
+            }
+        }
+        while(!stack.isEmpty()){
+            Node x=stack.pop();
+            System.out.println("("+x.x+","+x.y+")");
+        }
+        }
+    }
+}
