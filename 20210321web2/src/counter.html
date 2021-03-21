@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算器</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+     function f(type) {
+     var inputnum1=jQuery("#num1");
+     var inputnum2=jQuery("#num2");
+     if(type==1||type==2||type==3){
+        if(inputnum1.val().trim()==""||inputnum2.val().trim()==""){
+            alert("输入不能为空!");
+            return false;
+        }else{
+            var end;
+           if(type==1){
+             end=parseInt(inputnum1.val())+parseInt(inputnum2.val());
+           }else if(type==2){
+                end=parseInt(inputnum1.val())-parseInt(inputnum2.val());
+           }else{
+                end=parseInt(inputnum1.val())*parseInt(inputnum2.val());
+           }
+           var jj=jQuery("#result");
+            jj.html("<p style='background-color: lightsteelblue'>最终结果为:<strong style='color: red'>"+end+"</strong></p>");
+        }
+     }else{
+         if(confirm("是否清空？")){
+             inputnum1.val("");
+             inputnum2.val("");
+             alert("清空完毕");
+         }
+     }
+     }
+    </script>
+</head>
+<body>
+<p style="text-align: center;font-size:25px"><strong> 计算器 </strong></p>
+<div style="text-align:center;background-color: lightsteelblue">
+    数字1:<input id="num1" type="number"><p></p>
+    数字2:<input id="num2" type="number"><p></p>
+    <input type="button" value="相加" onclick="f(1)">&nbsp;&nbsp;<input type="button" value="相减" onclick="f(2)">
+    &nbsp;&nbsp;<input type="button" value="相乘" onclick="f(3)">&nbsp;&nbsp;<input type="button" value="清空" onclick="f(4)"><p></p>
+    <div id="result"></div>
+</div>
+</body>
+</html>
