@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function ff(type){
+            var inputUser=document.getElementById("username");
+            var inputPwd=document.getElementById("password");
+            var inputPwd2=document.getElementById("psw");
+           if (type==1){
+             if(confirm("是否清空？")){
+                 inputUser.value="";
+                 inputPwd.value="";
+                 inputPwd2.value="";
+                 alert("清空成功!");
+             }
+            }else{
+               if(inputUser.value==""){
+                   alert("用户名不能为空");
+                   return false;
+               }else if(inputPwd.value==""){
+                   alert("密码不能为空！");
+                   return false;
+               }else if(inputPwd2.value==""){
+                   alert("验证码不能为空！");
+                   return false;
+               }else{
+                   alert("注册成功！");
+                   return true;
+               }
+           }
+        }
+    </script>
+</head>
+<body>
+<h1 style="text-align: center"><strong>注册</strong></h1>
+<div style="text-align:center">
+    <div style="background-color: lightsteelblue">
+        <p>用户名:<input id="username" name="username" type="text"><br></p>
+        <p>密&nbsp;&nbsp;&nbsp;码:<input id="password" name="password" type="password"><br></p>
+        <p>确认码:<input id="psw" name="psw" type="password"><br></p>
+    </div>
+    <span style="margin-left:65px;margin-right:30px"><input type="button" value="清空" onclick="ff(1)">&nbsp;&nbsp;&nbsp;<input type="button" value="提交" onclick="ff(2)"></span>
+</div>
+</body>
+</html>

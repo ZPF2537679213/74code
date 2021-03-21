@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义搜索</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function f(url){
+            jQuery("#url").setAttribute("src",url);
+        }
+    </script>
+</head>
+<body>
+<input type="button" value="百度" onclick="f('https://www.baidu.com')"><input  type="button" value="搜狗" onclick="f('https://www.sogou.com')"><input type="button" value="360" onclick="f('https://www.so.com')">
+<iframe id="ifr" style="width: 100%;height: 500px;" src="https://www.baidu.com"></iframe>
+</body>
+</html>
