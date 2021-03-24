@@ -1,0 +1,68 @@
+给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 高度平衡 二叉搜索树。
+
+
+高度平衡 二叉树是一棵满足「每个节点的左右两个子树的高度差的绝对值不超过 1 」的二叉树。
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree
+输入：nums = [-10,-3,0,5,9]
+输出：[0,-3,9,-10,null,5]
+代码：
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums==null||nums.length==0){
+            return null;
+        }
+        TreeNode root=null;
+        int mid = nums.length/2;
+        root=new TreeNode(nums[mid]);
+        int[]left=Arrays.copyOf(nums,mid);
+        int[]right=Arrays.copyOfRange(nums,mid+1,nums.length);
+        TreeNode l=sortedArrayToBST(left);
+        TreeNode r=sortedArrayToBST(right);
+        root.left=l;
+        root.right=r;
+        return root;
+    }
+}
+给你二叉树的根节点?root 和一个表示目标和的整数?targetSum ，
+判断该树中是否存在 根节点到叶子节点 的路径，
+这条路径上所有节点值相加等于目标和?targetSum 。
+
+
+叶子节点 是指没有子节点的节点。
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/path-sum
+输入：root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+输出：true
+代码：
+class Solution {
+    public boolean flag;
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        has(root,"",targetSum);
+        return flag;
+    }
+    public void has(TreeNode root ,String str,int targetSum){
+        if(root==null){
+           return;
+        }
+        if(root.left==null&&root.right==null){
+            str+=root.val;
+            String[]ss=str.split(" ");
+            int sum=0;
+            for(String x:ss){
+                sum+=Integer.valueOf(x);
+            }
+            if(sum==targetSum){
+                flag=true;
+                return;
+            }
+        }else{
+            has(root.left,str+root.val+" ",targetSum);
+            has(root.right,str+root.val+" ",targetSum);
+        }
+    }
+}
