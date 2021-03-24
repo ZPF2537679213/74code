@@ -1,0 +1,16 @@
+链接：
+https://www.nowcoder.com/practice/3a303a39cc40489b99a7e1867e6507c5?tpId=82&tqId=29780&rp=1&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking&tab=answerKey
+代码：
+select category.name,count(film.film_id) from 
+(category join film_category on category.category_id=film_category.category_id)
+join film on film.film_id=film_category.film_id
+where category.category_id in 
+(select category_id from film_category group by category_id  having count(*)>=5) 
+and film.description like "%robot%"
+链接：
+https://www.nowcoder.com/practice/4bcb6a7d3e39423291d2f7bdbbff87f8?tpId=82&tqId=29778&rp=1&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking&tab=answerKey
+代码：
+select departments.dept_no,departments.dept_name,titles.title,count(*) count from 
+(departments join dept_emp on departments.dept_no=dept_emp.dept_no)
+join titles on titles.emp_no=dept_emp.emp_no 
+group by departments.dept_no,departments.dept_name,titles.title order by departments.dept_no;
