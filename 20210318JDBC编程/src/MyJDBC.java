@@ -24,14 +24,14 @@ public class MyJDBC {
         String url="jdbc:mysql://127.0.0.1:3306/mydatabase?useSSL=false";//定位数据库所在的客户端
         String name="root";//用户名
         String password="123456";//密码
-          Connection connection=DriverManager.getConnection(url,name,password);//获取连
+        Connection connection=DriverManager.getConnection(url,name,password);//获取连
        /*
        * 执行sql语句
        * */
         String sql="select * from user";
         Statement statement=connection.createStatement();
         ResultSet resultset=statement.executeQuery(sql);
-       while(resultset.next()){
+        while(resultset.next()){
             System.out.print("id="+resultset.getInt(1)+" ");
             System.out.print("acount="+resultset.getString(2)+" ");
             System.out.println("amount="+resultset.getInt(3));
