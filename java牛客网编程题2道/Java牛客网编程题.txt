@@ -1,0 +1,91 @@
+题目描述
+任意一个偶数（大于2）都可以由2个素数组成，组成偶数的2个素数有很多种情况，本题目要求输出组成指定偶数的两个素数差值最小的素数对。
+本题含有多组样例输入。
+输入描述:
+输入一个偶数
+输出描述:
+输出两个素数
+示例1
+输入
+20
+输出
+7
+13
+代码：
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+       Scanner input=new Scanner(System.in);
+        while(input.hasNext()){
+            int n=input.nextInt();
+           int[]min=new int[]{0,n};
+            for(int i=1;i<=n/2;++i){
+                int x=i;
+                int y=n-i;
+                if(suNum(x)&&suNum(y)){
+                    if(y-x<min[1]-min[0]){
+                        min[0]=x;
+                        min[1]=y;
+                    }
+                }
+            }
+            System.out.println(min[0]);
+            System.out.println(min[1]);
+        }
+    }
+    public static boolean suNum(int n){
+        for(int i=2;i<=n/2;++i){
+            if(n%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+题目描述
+找出字符串中第一个只出现一次的字符
+输入描述:
+输入几个非空字符串
+输出描述:
+输出第一个只出现一次的字符，如果不存在输出-1
+示例1
+输入
+asdfasdfo
+aabb
+输出
+o
+-1
+代码：
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner input=new Scanner(System.in);
+        ArrayList<String>list=new ArrayList<>();
+        while(input.hasNext()){
+           list.add(input.nextLine());
+        }
+        for(String str:list){
+           Map<Character,Integer>map=new HashMap<>();
+            for(int i=0;i<str.length();++i){
+                char x=str.charAt(i);
+                if(!map.containsKey(x)){
+                    map.put(x,1);
+                }else{
+                    map.put(x,map.get(x)+1);
+                }
+            }
+            boolean flag=false;
+            for(int i=0;i<str.length();++i){
+                char x=str.charAt(i);
+                if(map.get(x)==1){
+                    System.out.println(x);
+                    flag=true;
+                    break;
+                }
+            }
+            if(!flag){
+                System.out.println(-1);
+            }
+        }
+    }
+}
