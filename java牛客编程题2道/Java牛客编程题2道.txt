@@ -1,0 +1,93 @@
+题目描述
+完全数（Perfect number），又称完美数或完备数，是一些特殊的自然数。
+它所有的真因子（即除了自身以外的约数）的和（即因子函数），恰好等于它本身。
+例如：28，它有约数1、2、4、7、14、28，除去它本身28外，其余5个数相加，1+2+4+7+14=28。s
+入n，请输出n以内(含n)完全数的个数。计算范围, 0 < n <= 500000
+本题输入含有多组样例。
+输入描述:
+输入一个数字n
+输出描述:
+输出不超过n的完全数的个数
+示例1
+输入
+1000
+7
+100
+输出
+3
+1
+2
+代码：
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner input=new Scanner(System.in);
+        ArrayList<Integer>list=new ArrayList<>();
+        while(input.hasNext()){
+            int N=input.nextInt();
+            int num=0;
+            for(int i=1;i<=N;++i){
+                int sum=0;
+               for(int j=1;j<=(int)Math.sqrt(i);++j){
+                   if(i%j==0&&i!=j){
+                       sum+=j;
+                       if(i/j!=i){
+                           sum+=(i/j);
+                       }
+                   }
+               }
+                if(sum==i){
+                    num++;
+                }
+            }
+            list.add(num);
+        }
+        for(int x:list){
+            System.out.println(x);
+        }
+    }
+}
+题目描述
+输出7有关数字的个数，包括7的倍数，还有包含7的数字（如17，27，37...70，71，72，73...）的个数（一组测试用例里可能有多组数据，请注意处理）
+输入描述:
+一个正整数N。(N不大于30000)
+输出描述:
+不大于N的与7有关的数字个数，例如输入20，与7有关的数字包括7,14,17.
+示例1
+输入
+20
+10
+输出
+3
+1
+代码：
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner input=new Scanner(System.in);
+        List<Integer>list=new ArrayList<>();
+        while(input.hasNextInt()){
+            int N=input.nextInt();
+            int num=0;
+            for(int i=7;i<=N;++i){
+                int n=i;
+                if(n%7==0){
+                    num++;
+                    continue;
+                }
+                while(n!=0){
+                    int x=n%10;
+                    if(x==7){
+                        num++;
+                        break;
+                    }
+                    n/=10;
+                }
+            }
+            list.add(num);
+        }
+        for(int x:list){
+            System.out.println(x);
+        }
+    }
+}
