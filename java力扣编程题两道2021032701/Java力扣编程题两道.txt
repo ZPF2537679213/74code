@@ -1,0 +1,149 @@
+给定链表头结点?head，该链表上的每个结点都有一个 唯一的整型值 。
+
+
+同时给定列表?G，该列表是上述链表中整型值的一个子集。
+
+
+返回列表?G?中组件的个数，这里对组件的定义为：链表中一段最长连续结点的值（该值必须在列表?G?中）构成的集合。
+
+?
+
+
+示例?1：
+
+
+输入: 
+head: 0->1->2->3
+G = [0, 1, 3]
+
+输出: 2
+
+解释: 
+链表中,0 和 1 是相连接的，且 G 中不包含 2，所以 [0, 1] 是 G 的一个组件，同理 [3] 也是一个组件，故返回 2。
+
+示例 2：
+
+
+输入: 
+head: 0->1->2->3->4
+G = [0, 3, 1, 4]
+
+输出: 2
+
+解释: 
+链表中，0 和 1 是相连接的，3 和 4 是相连接的，所以 [0, 1] 和 [3, 4] 是两个组件，故返回 2。
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/linked-list-components
+代码：
+class Solution {
+    public int numComponents(ListNode head, int[] G) {
+        if(head==null||G.length==0){
+            return 0;
+        }
+        ListNode cur=head;
+        int maxlen=0;
+        int len=0;
+        while(cur!=null){
+           if(search(cur.val,G)){
+               len++;
+           }else{
+              if(len!=0){
+                  maxlen++;
+                  len=0;
+              }
+           }
+           cur=cur.next;
+        }
+        maxlen=len==0?maxlen:maxlen+1;
+        return maxlen;
+    }
+    public boolean search(int key,int[]num){
+        for(int i=0;i<num.length;++i){
+            if(num[i]==key){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+给你两个 非空 链表来代表两个非负整数。
+数字最高位位于链表开始位置。它们的每个节点只存储一位数字。
+将这两数相加会返回一个新的链表。
+
+你可以假设除了数字 0 之外，这两个数字都不会以零开头。
+
+?
+
+
+进阶：
+
+如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。
+
+
+?
+
+示例：
+
+
+输入：(7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
+
+输出：7 -> 8 -> 0 -> 7
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/add-two-numbers-ii
+
+代码：
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if(l1==null&&l2==null){
+            return null;
+        }
+       Stack<ListNode>stack1=new Stack<>();
+       Stack<ListNode>stack2=new Stack<>();
+       ListNode cur1=l1;
+       ListNode cur2=l2;
+       ListNode head=null;
+       while(cur1!=null){
+           stack1.push(cur1);
+           cur1=cur1.next;
+       }
+        while(cur2!=null){
+           stack2.push(cur2);
+           cur2=cur2.next;
+       }
+       int c=0;
+       while(!stack1.isEmpty()&&!stack2.isEmpty()){
+           ListNode x=stack1.pop();
+           ListNode y=stack2.pop();
+             int sum=c+x.val+y.val;
+             c=0;
+             ListNode node=new ListNode(sum>=10?sum%10:sum);
+             c=sum>=10?1:0;
+             node.next=head;
+             head=node;
+       }
+      while(!stack1.isEmpty()){
+          int x=stack1.pop().val;
+          ListNode node=new ListNode(x+c>=10?(x+c)%10:(x+c));
+          node.next=head;
+          c=x+c>=10?1:0;
+          head=node;
+      }
+       while(!stack2.isEmpty()){
+           int x=stack2.pop().val;
+          ListNode node=new ListNode(x+c>=10?(x+c)%10:(x+c));
+           c=x+c>=10?1:0;
+          node.next=head;
+          head=node;
+      }
+      if(stack2.isEmpty()&&stack1.isEmpty()&&c==1){
+          ListNode node=new ListNode(1);
+          node.next=head;
+          head=node;
+      }
+      return head;
+    }
+}
