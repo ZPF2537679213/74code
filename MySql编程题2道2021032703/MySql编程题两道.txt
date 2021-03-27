@@ -1,0 +1,19 @@
+链接：
+https://www.nowcoder.com/practice/2f2e556d335d469f96b91b212c4c203e?tpId=82&tqId=29782&rp=1&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking&tab=answerKey
+代码：
+代码一：
+select film.title,film.description from (film join film_category on film_category.film_id=film.film_id)
+join category on category.category_id=film_category.category_id where category.name='Action';
+代码二：
+select film.title,film.description from film where film.film_id in (select film_id from film_category 
+                                                                   where category_id in (
+                                                                   select category_id from category 
+                                                                   where name='Action'
+                                                                   )
+                                                                   )
+链接：
+https://www.nowcoder.com/practice/a158fa6e79274ac497832697b4b83658?tpId=82&tqId=29781&rp=1&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking&tab=answerKey
+代码：
+select film.film_id,film.title from (film left join film_category on film_category.film_id=film.film_id)
+left join category on category.category_id=film_category.category_id where
+category.name<=>null;
