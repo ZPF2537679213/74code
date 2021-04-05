@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function mysub(type) {
+            var username=jQuery("#username");
+            var password=jQuery("#password");
+            if(type==1){
+                if(username.val()==""){
+                    alert("请输入用户名!");
+                    username.focus();
+                    return false;
+                }
+                if(password.val()==""){
+                    alert("请输入密码!");
+                    password.focus();
+                    return false;
+                }
+                jQuery.getJSON("logininfor",{
+                    "username":username.val(),
+                    "password":password.val()
+                },function (data) {
+                    if(data!=null&&data.succ==1){
+                        alert("登陆成功!");
+                        location.href="art.html";
+                        return true;
+                    }else{
+                        alert("登陆失败:"+data.msg);
+                        return false;
+                    }
+                });
+            }else{
+                if(confirm("是否清空?")){
+                    username.val("");
+                    password.val("");
+                    return true;
+                }
+            }
+        }
+    </script>
+</head>
+<body style="margin-top: 100px;text-align: center">
+<h1>用户登陆</h1>
+用户名:<input type="text" id="username" name="username"><p></p>
+密&nbsp;&nbsp;&nbsp;码:<input type="password" id="password" name="password"><p></p>
+<input type="button" value="登 陆" onclick="mysub(1)">
+<input type="button" value="清 空" onclick="mysub(2)">
+</body>
+</html>
