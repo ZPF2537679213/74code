@@ -5,6 +5,24 @@
     <title>文章界面</title>
     <script src="jquery-1.9.1.min.js"></script>
     <script>
+        function mydel(id){
+            if(confirm("确认删除?")){
+                if(id>0){
+                    jQuery.getJSON("mydel",{"id":id},function (data) {
+                        if(data.succ==1){
+                            alert("删除成功!");
+                            location.href=location.href;
+                            return true;
+                        }else{
+                            alert("删除失败:"+data.msg);
+                            return false;
+                        }
+                    });
+                }else{
+                   alert("操作不合法!");
+                }
+            }
+        }
         jQuery(function () {
             jQuery.getJSON("art",{},function (data) {
                 if(data.succ>=0){
@@ -25,7 +43,7 @@
                            article.rcount + "                \n" +
                            "            </td>\n" +
                            "            <td>\n" +
-                           "                修改 删除\n" +
+                           "                <a href='change.html?id="+article.id+"'><strong>修改</strong></a>&nbsp;&nbsp;<a href='javaScript:mydel("+article.id+");'><strong>删除</strong></a>\n" +
                            "            </td>\n" +
                            "        </tr>";
                    }
@@ -41,13 +59,14 @@
 <body>
 <div style="text-align: center">
     <h1>我的文章</h1>
+    <a href="addart.html"><strong>添加文章</strong></a>
 <table border="1" style="width: 80%;margin-left: 150px" id="table1">
     <tr>
-        <td>编号</td>
-        <td>标题</td>
-        <td>发布时间</td>
-        <td>阅读数</td>
-        <td>操作</td>
+        <td><strong>编号</strong></td>
+        <td><strong>标题</strong></td>
+        <td><strong>发布时间</strong></td>
+        <td><strong>阅读数</strong></td>
+        <td><strong>操作</strong></td>
     </tr>
 </table>
 </div>
