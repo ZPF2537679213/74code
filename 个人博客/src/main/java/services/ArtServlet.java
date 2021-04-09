@@ -34,9 +34,11 @@ public class ArtServlet extends HttpServlet {
         }else{
             UserInfo userInfo=(UserInfo)session.getAttribute("userinfo");
               int  uid=userInfo.getId();
+              int pase=Integer.parseInt(request.getParameter("pase"));
+              int psize=Integer.parseInt(request.getParameter("psize"));
             WorkDatabase work=new WorkDatabase();
             try {
-                list=work.select(uid);
+                list=work.select(uid,pase,psize);
                 succ=list.size();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

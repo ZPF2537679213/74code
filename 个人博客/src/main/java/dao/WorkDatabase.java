@@ -2,6 +2,7 @@ package dao;
 
 import models.MyArtical;
 import models.UserInfo;
+import models.vo.Article;
 import utils.JDBC;
 
 import java.sql.Connection;
@@ -38,11 +39,13 @@ public class WorkDatabase {
         JDBC.close(connection,statement,resultSet);
         return userInfo;
     }
-    public List<MyArtical> select(int uid) throws SQLException {
+    public List<MyArtical> select(int uid,int pase,int psize) throws SQLException {
         Connection connection=JDBC.dataSourse();
-        String sql="select * from  articleinfo where uid=?";
+        String sql="select * from  articleinfo where uid=? limit ?,?";
         PreparedStatement statement=connection.prepareStatement(sql);
         statement.setInt(1,uid);
+        statement.setInt(2,(pase-1)*psize);
+        statement.setInt(3,psize);
         ResultSet resultSet=statement.executeQuery();
         List<MyArtical>list=new ArrayList<>();
         while(resultSet.next()){
@@ -66,16 +69,19 @@ public class WorkDatabase {
         JDBC.close(connection,preparedStatement,null);
         return result;
     }
-    public MyArtical search(int id) throws SQLException {
+    public Article search(int id) throws SQLException {
         Connection connection=JDBC.dataSourse();
-        String sql="select * from articleinfo where id=?";
+        String sql="select a.*,u.username from articleinfo a left join userinfo u on a.uid=u.id and a.id=?";
         PreparedStatement preparedStatement=connection.prepareStatement(sql);
         preparedStatement.setInt(1,id);
         ResultSet resultSet=preparedStatement.executeQuery();
-        MyArtical myArtical=new MyArtical();
+        Article myArtical=new Article();
         if(resultSet.next()){
             myArtical.setTitle(resultSet.getString("title"));
             myArtical.setContent(resultSet.getString("content"));
+            myArtical.setUsername(resultSet.getString("username"));
+            myArtical.setRcount(resultSet.getInt("rcount"));
+            myArtical.setCreatetime(resultSet.getDate("createtime"));
         }
         JDBC.close(connection,preparedStatement,resultSet);
         return myArtical;
@@ -100,6 +106,35 @@ public class WorkDatabase {
         statement.setInt(3,uid);
         int result=statement.executeUpdate();
         JDBC.close(connection,statement,null);
+        return result;
+    }
+    public List<Article>paseart(int pase,int psize) throws SQLException {
+       Connection connection=JDBC.dataSourse();
+       List<Article>list=new ArrayList<>();
+       String sql="select a.*,u.username from articleinfo a left join userinfo u on a.uid=u.id limit ?,?";
+       PreparedStatement preparedStatement=connection.prepareStatement(sql);
+       preparedStatement.setInt(1,(pase-1)*psize);
+       preparedStatement.setInt(2,psize);
+       ResultSet resultSet=preparedStatement.executeQuery();
+       while(resultSet.next()){
+           Article article=new Article();
+           article.setId(resultSet.getInt("id"));
+           article.setTitle(resultSet.getString("title"));
+           article.setUsername(resultSet.getString("username"));
+           article.setCreatetime(resultSet.getDate("createtime"));
+           article.setRcount(resultSet.getInt("rcount"));
+           list.add(article);
+       }
+       JDBC.close(connection,preparedStatement,resultSet);
+       return list;
+    }
+    public int addRcount(int id) throws SQLException {
+        Connection connection=JDBC.dataSourse();
+        String sql="update articleinfo set rcount=rcount+1 where id=?";
+        PreparedStatement preparedStatement=connection.prepareStatement(sql);
+        preparedStatement.setInt(1,id);
+        int result=preparedStatement.executeUpdate();
+        JDBC.close(connection,preparedStatement,null);
         return result;
     }
 }

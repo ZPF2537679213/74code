@@ -5,6 +5,18 @@
     <title>文章界面</title>
     <script src="jquery-1.9.1.min.js"></script>
     <script>
+        function returned() {
+            if(confirm("确认退出?")){
+                location.href="login.html";
+            }
+        }
+        function mytime(time) {
+            var mytime=new Date(time);
+            var y=mytime.getFullYear();
+            var m=mytime.getMonth()+1;
+            var d=mytime.getDay();
+            return y+"-"+m+"-"+d;
+        }
         function mydel(id){
             if(confirm("确认删除?")){
                 if(id>0){
@@ -23,8 +35,28 @@
                 }
             }
         }
+        var pase=1;
+        function mypase(type){
+            if(type==1){
+                if(pase==1){
+                    alert("已经是第一页!");
+                    return false;
+                }
+                location.href="art.html?p="+(pase-1);
+            }else{
+                location.href="art.html?p="+(pase+1);
+            }
+        }
         jQuery(function () {
-            jQuery.getJSON("art",{},function (data) {
+            var p=location.search;
+            if(p!=null){
+                p=p.split("=")[1];
+                pase=parseInt(p);
+            }else{
+                alert("页面错误!");
+            }
+            var psize=3;
+            jQuery.getJSON("art",{"pase":pase,"psize":psize},function (data) {
                 if(data.succ>=0){
                    var html="";
                    for(var i=0;i<data.list.length;++i){
@@ -37,7 +69,7 @@
                            article.title + "                \n" +
                            "            </td>\n" +
                            "            <td>\n" +
-                           article.createtime + "                \n" +
+                           mytime(article.createtime) + "                \n" +
                            "            </td>\n" +
                            "            <td>\n" +
                            article.rcount + "                \n" +
@@ -48,6 +80,10 @@
                            "        </tr>";
                    }
                    jQuery("#table1").append(html);
+                    if(data.list.length==0){
+                        alert("已是最后一页!");
+                        location.href="art.html?p="+(pase-1);
+                    }
                 }else{
                     alert(data.msg);
                     return false;
@@ -56,9 +92,10 @@
         });
     </script>
 </head>
-<body>
+<body style="background-image: url('cat.bmp')">
 <div style="text-align: center">
     <h1>我的文章</h1>
+    <a href="artlist.html"><strong>文章库</strong></a><hr>
     <a href="addart.html"><strong>添加文章</strong></a>
 <table border="1" style="width: 80%;margin-left: 150px" id="table1">
     <tr>
@@ -69,6 +106,11 @@
         <td><strong>操作</strong></td>
     </tr>
 </table>
+</div>
+<div style="text-align: center">
+    <a href="javascript:mypase(1)"><strong>上一页</strong></a>
+    <a href="javascript:mypase(2)"><strong>下一页</strong></a><p></p>
+<input type="button" value="退 出" onclick="returned()">
 </div>
 </body>
 </html>
