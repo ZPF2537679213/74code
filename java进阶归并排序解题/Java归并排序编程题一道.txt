@@ -1,0 +1,68 @@
+给定一个数组?nums?，如果?i < j?且?nums[i] > 2*nums[j]?我们就将?(i, j)?称作一个重要翻转对。
+
+
+你需要返回给定数组中的重要翻转对的数量。
+
+
+示例 1:
+
+输入: [1,3,2,3,1]
+输出: 2
+
+示例 2:
+
+输入: [2,4,3,5,1]
+输出: 3
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/reverse-pairs
+代码：
+class Solution {
+    public int result;
+    public int reversePairs(int[] nums) {
+      int[]tmp=new int[nums.length];
+      if(nums.length>0){
+        revers(nums,0,nums.length-1,tmp);
+      }
+      return result;  
+    }
+    public void revers(int []nums,int left,int right,int[]tmp){
+        if(left==right){
+            return;
+        }
+        int mid=left+(right-left)/2;
+        revers(nums,left,mid,tmp);
+        revers(nums,mid+1,right,tmp);
+        int x=left;
+        int y=mid+1;
+        while(x<=mid&&y<=right){
+            if((long)nums[x]>(long)2*nums[y]){
+                result+=(mid-x+1);
+                y++;
+            }else{
+                x++;
+            }
+        }
+        x=left;
+        y=mid+1;
+        int t=0;
+        while(x<=mid&&y<=right){
+            if(nums[x]<nums[y]){
+                tmp[t++]=nums[x++];
+            }else{
+                tmp[t++]=nums[y++];
+            }
+        }
+        while(x<mid+1){
+            tmp[t++]=nums[x++];
+        }
+        while(y<right+1){
+            tmp[t++]=nums[y++];
+        }
+        t=0;
+        while(left<=right){
+            nums[left++]=tmp[t++];
+        }
+    }
+}
