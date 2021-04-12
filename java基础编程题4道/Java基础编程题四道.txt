@@ -1,0 +1,221 @@
+给你一个数组 nums ，数组中有 2n 个元素，按 [x1,x2,...,xn,y1,y2,...,yn] 的格式排列。
+
+
+请你将数组按 [x1,y1,x2,y2,...,xn,yn] 格式重新排列，返回重排后的数组。
+
+?
+
+
+示例 1：
+
+输入：nums = [2,5,1,3,4,7], n = 3
+
+输出：[2,3,5,4,1,7] 
+
+解释：由于 x1=2, x2=5, x3=1, y1=3, y2=4, y3=7 ，所以答案为 [2,3,5,4,1,7]
+
+示例 2：
+
+输入：nums = [1,2,3,4,4,3,2,1], n = 4
+
+输出：[1,4,2,3,3,2,4,1]
+
+示例 3：
+
+输入：nums = [1,1,2,2], n = 2
+
+输出：[1,2,1,2]
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/shuffle-the-array
+代码：
+class Solution {
+    public int[] shuffle(int[] nums, int n) {
+        int[]num=new int[2*n];
+        int start=0;
+        int mid=n;
+        int t=0;
+        while(start<n&&mid<nums.length){
+            num[t++]=nums[start++];
+            num[t++]=nums[mid++];
+        }
+        return num;
+    }
+}
+给你一个数组?candies?和一个整数?extraCandies?，其中?candies[i]?代表第 i 个孩子拥有的糖果
+数目。
+
+对每一个孩子，检查是否存在一种方案，将额外的?extraCandies?个糖果分配给孩子们之
+后，此孩子有 最多?的糖果。
+注意，允许有多个孩子同时拥有 最多?的糖果数目。
+
+?
+
+
+示例 1：
+
+
+输入：candies = [2,3,5,1,3], extraCandies = 3
+
+输出：[true,true,true,false,true] 
+
+解释：
+孩子 1 有 2 个糖果，如果他得到所有额外的糖果（3个），那么他总共有 5 个糖果，他将成为拥有最多糖果的孩子。
+
+孩子 2 有 3 个糖果，如果他得到至少 2 个额外糖果，那么他将成为拥有最多糖果的孩子。
+
+孩子 3 有 5 个糖果，他已经是拥有最多糖果的孩子。
+
+孩子 4 有 1 个糖果，即使他得到所有额外的糖果，他也只有 4 个糖果，无法成为拥有糖果最多的孩子。
+
+孩子 5 有 3 个糖果，如果他得到至少 2 个额外糖果，那么他将成为拥有最多糖果的孩子。
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/kids-with-the-greatest-number-of-candies
+
+代码：
+class Solution {
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+       List<Boolean>list=new ArrayList<>();
+        /*for(int i=0;i<candies.length;++i){
+           list.add(kids(i,extraCandies,candies));
+        }
+        return list;
+    }
+    public boolean kids(int kid,int extraCandies,int []candies){
+        int index=kid;
+        for(int i=0;i<candies.length;++i){
+            if(i!=index){
+                if(candies[index]+extraCandies<candies[i]){
+                    kid=i;
+                }
+            }
+        }
+        return kid==index;*/
+        int max=candies[0];
+        for(int x:candies){
+            max=Math.max(max,x);
+        }
+        for(int x:candies){
+            if(max-x<=extraCandies){
+                list.add(true);
+            }else{
+                list.add(false);
+            }
+        }
+        return list;
+    }
+}
+给你一个整数数组 nums 。
+
+
+如果一组数字 (i,j) 满足 nums[i] == nums[j] 且 i < j ，就可以认为这是一组 好数对 。
+
+
+返回好数对的数目。
+
+?
+
+
+示例 1：
+
+
+输入：nums = [1,2,3,1,1,3]
+
+输出：4
+解释：有 4 组好数对，分别是 (0,3), (0,4), (3,4), (2,5) ，下标从 0 开始
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/number-of-good-pairs
+代码：
+class Solution {
+    public int numIdenticalPairs(int[] nums) {
+        HashMap<Integer,Integer>map=new HashMap<>();
+        for(int i=0;i<nums.length;++i){
+            if(!map.containsKey(nums[i])){
+                map.put(nums[i],1);
+            }else{
+                map.put(nums[i],map.get(nums[i])+1);
+            }
+        }
+        int result=0;
+        for(int k:map.keySet()){
+            int count=map.get(k);
+            result+=count*(count-1)>>1;
+        }
+        return result;
+    }
+}
+请你给一个停车场设计一个停车系统。
+停车场总共有三种不同大小的车位：大，中和小，每种尺寸分别有固定数目的车位。
+
+
+请你实现
+?ParkingSystem?类：
+
+ParkingSystem(int big, int medium, int small)?初始化?ParkingSystem?类，
+三个参数分别对应每种停车位的数目。
+
+bool addCar(int carType)?检查是否有?carType?对应的停车位。?carType?有三种类型：大，中，小，分别用数字?1，?2?和?3?表示。一辆车只能停在??carType?对应尺寸的停车位中。如果没有空车位，请返回?false?，否则将该车停入车位并返回?true?。
+?
+
+示例 1：
+
+输入：
+["ParkingSystem", "addCar", "addCar", "addCar", "addCar"]
+[[1, 1, 0], [1], [2], [3], [1]]
+输出：
+[null, true, true, false, false]
+
+解释：
+ParkingSystem parkingSystem = new ParkingSystem(1, 1, 0);
+parkingSystem.addCar(1); // 返回 true ，因为有 1 个空的大车位
+parkingSystem.addCar(2); // 返回 true ，因为有 1 个空的中车位
+parkingSystem.addCar(3); // 返回 false ，因为没有空的小车位
+parkingSystem.addCar(1); // 返回 false ，因为没有空的大车位，唯一一个大车位已经被占据了
+
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/design-parking-system
+代码：
+class ParkingSystem {
+    public int big;
+    public int medium;
+    public int small;
+
+    public ParkingSystem(int big, int medium, int small) {
+        this.big=big;
+        this.medium=medium;
+        this.small=small;
+    }
+    
+    public boolean addCar(int carType) {
+       switch(carType){
+        case 1:
+        if(this.big==0){
+            return false;
+        }else{
+            this.big--;
+            return true;
+        }
+        case 2:
+        if(this.medium==0){
+            return false;
+        }else{
+            this.medium--;
+            return true;
+        }
+        case 3:
+        if(this.small==0){
+            return false;
+        }else{
+            this.small--;
+            return true;
+        }
+        default:return false;
+       }
+    }
+}
