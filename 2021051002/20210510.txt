@@ -1,0 +1,51 @@
+题目描述
+针对salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005, 使用强制索引。
+CREATE TABLE `salaries` (
+`emp_no` int(11) NOT NULL,
+`salary` int(11) NOT NULL,
+`from_date` date NOT NULL,
+`to_date` date NOT NULL,
+PRIMARY KEY (`emp_no`,`from_date`));
+create index idx_emp_no on salaries(emp_no);
+代码：
+select * from salaries force index(idx_emp_no) where emp_no=10005;
+题目描述
+针对actor表创建视图actor_name_view，只包含first_name以及last_name两列，并对这两列重新命名，first_name为first_name_v，last_name修改为last_name_v：
+CREATE TABLE  actor  (
+   actor_id  smallint(5)  NOT NULL PRIMARY KEY,
+   first_name  varchar(45) NOT NULL,
+   last_name  varchar(45) NOT NULL,
+   last_update datetime NOT NULL);
+代码：
+create view actor_name_view as
+select first_name as first_name_v ,
+        last_name as last_name_v
+        from actor;
+22. 括号生成
+数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+示例 1：
+输入：n = 3
+输出：["((()))","(()())","(())()","()(())","()()()"]
+示例 2：
+输入：n = 1
+输出：["()"]
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String>list=new ArrayList<>();
+        generate(list,0,0,n,"");
+        return list;
+    }
+    public void generate(List<String>list,int left,int right,int n,String s){
+        if(left==n&&right==n){
+            list.add(s);
+            return;
+        }
+        if(left>n||right>n){
+            return;
+        }
+        if(left>=right){
+        generate(list,left+1,right,n,s+"(");
+        generate(list,left,right+1,n,s+")");
+        }
+    }
+}
