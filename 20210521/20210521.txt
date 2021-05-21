@@ -1,0 +1,209 @@
+题目描述
+在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任一一个重复的数字。 例如，如果输入长度为7的数组[2,3,1,0,2,5,3]，那么对应的输出是2或者3。存在不合法的输入的话输出-1
+示例1
+输入
+[2,3,1,0,2,5,3]
+输出
+2
+import java.util.*;
+
+
+public class Solution {
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param numbers int整型一维数组 
+     * @return int整型
+     */
+    public int duplicate (int[] numbers) {
+        int len=numbers.length;
+        HashMap<Integer,Integer>map=new HashMap<>();
+        for(int i=0;i<len;++i){
+           if(numbers[i]>=len||numbers[i]<0){
+             return -1;
+           }
+           if(!map.containsKey(numbers[i])){
+              map.put(numbers[i],1);
+           }else{
+               map.put(numbers[i],map.get(numbers[i])+1);
+           }
+        }
+        for(int x:map.keySet()){
+           if(map.get(x)>1){
+              return x;
+           }
+        }
+        return -1;
+    }
+}
+将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0
+输入描述:
+输入一个字符串,包括数字字母符号,可以为空
+返回值描述:
+如果是合法的数值表达则返回该数字，否则返回0
+public class Solution {
+    public int StrToInt(String str) {
+        boolean f=false;
+        int end=0;
+        for(int i=0;i<str.length();++i){
+        if(i==0&&str.charAt(i)=='-'){
+          f=true;
+          continue;
+        }
+        if(i==0&&str.charAt(i)=='+'){
+           continue;
+        }
+        if(str.charAt(i)<'0'||str.charAt(i)>'9'){
+           return 0;
+        }
+         end=end*10+(str.charAt(i)-'0');
+        }
+        if(f){
+          end=-end;
+        }
+        return end;
+    }
+}
+写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。
+public class Solution {
+    public int Add(int num1,int num2) {
+        int h=num1^num2;
+        int y=num1&num2;
+        if(y==0){
+           return h;
+        }
+        return Add(h,y<<1);
+    }
+}
+求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
+public class Solution {
+    public int Sum_Solution(int n) {
+        int sum=n;
+        boolean bs=(n>0)&&((sum+=Sum_Solution(n-1))>0);
+        return sum;
+    }
+}
+每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为牛客的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
+如果没有小朋友，请返回-1
+public class Solution {
+    public int LastRemaining_Solution(int n, int m) {
+        if(n==0){
+           return -1;
+        }
+        int[]num=new int[n];
+        for(int i=0;i<n;++i){
+           num[i]=i;
+        }
+        int pm=0;
+        int child=0;
+        int nn=n;
+        while(nn>1){
+            if(pm==m-1&&num[child]!=-1){
+              num[child]=-1;
+               pm%=(m-1);
+                nn--;
+            }else{
+                if(num[child]!=-1){
+                   pm++;
+                }
+                child=(child+1)%n;
+            }
+        }
+        for(int x:num){
+           if(x!=-1){
+              return x;
+           }
+        }
+        return -1;
+    }
+}
+现在有2副扑克牌，从扑克牌中随机五张扑克牌，我们需要来判断一下是不是顺子。
+有如下规则：
+1. A为1，J为11，Q为12，K为13，A不能视为14
+2. 大、小王为 0，0可以看作任意牌
+3. 如果给出的五张牌能组成顺子（即这五张牌是连续的）就输出true，否则就输出false。
+例如：给出数据[6,0,2,0,4]
+中间的两个0一个看作3，一个看作5 。即：[6,3,2,5,4]
+这样这五张牌在[2,6]区间连续，输出true
+数据保证每组5个数字，每组最多含有4个零，数组的数取值为 [0, 13]
+import java.util.*;
+public class Solution {
+    public boolean IsContinuous(int [] numbers) {
+        boolean[]flag=new boolean[14];
+        int zero=0;
+        for(int i=0;i<numbers.length;++i){
+           if(numbers[i]!=0){
+              flag[numbers[i]]=true;
+           }else{
+               zero++;
+           }
+        }
+        int left=0,right=13;
+        while(!flag[left]){
+            left++;
+        }
+        while(!flag[right]){
+            right--;
+        }
+        if(right-left+1>5){
+           return false;
+        }
+        int count=0;
+        for(int i=left;i<=right;++i){
+            if(flag[i]){
+              count++;
+            }
+        }
+        if(5-count==0||5-count==zero){
+           return true;
+        }
+        return false;
+    }
+}
+牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“nowcoder. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a nowcoder.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+public class Solution {
+    public String ReverseSentence(String str) {
+        String[]s=str.split(" ");
+        StringBuilder end=new StringBuilder();
+        for(int i=s.length-1;i>=0;--i){
+            end.append(s[i]+" ");
+        }
+        return end.toString().trim();
+    }
+}
+汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
+public class Solution {
+    public String LeftRotateString(String str,int n) {
+        if(n>=str.length()){
+           return str;
+        }
+        StringBuilder end=new StringBuilder();
+        end.append(str.substring(n,str.length()));
+        end.append(str.substring(0,n));
+        return end.toString();
+    }
+}
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
+import java.util.*;
+public class Solution {
+    public ArrayList<Integer> FindNumbersWithSum(int [] array,int sum) {
+       HashSet<Integer>set=new HashSet<>();
+        ArrayList<Integer>list=new ArrayList<>();
+        for(int i=0;i<array.length;++i){
+            if(!set.contains(sum-array[i])){
+              set.add(array[i]);
+            }else{
+                if(list.size()==0){
+                list.add(sum-array[i]);
+                list.add(array[i]);
+                }
+              if(list.get(0)*list.get(1)>array[i]*(sum-array[i])){
+                list.set(0,sum-array[i]);
+                list.set(1,array[i]);
+              }
+            }
+        }
+        return list;
+    }
+}
