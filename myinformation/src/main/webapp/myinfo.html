@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>飞哥博客系统</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function mysub(type) {
+            if(type==1){
+                location.href="login.html";
+            }else{
+                location.href="create.html";
+            }
+        }
+    </script>
+</head>
+<body style="background-image: url('fp.bmp')">
+<div style="text-align: left;margin-top: 200px">
+    <h1>腾</h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" value="用户登陆" onclick="mysub(1)">
+    <h1>飞</h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <h1>博</h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" value="用户注册" onclick="mysub(2)">
+    <h1>客</h1>
+
+</div>
+</body>
+</html>

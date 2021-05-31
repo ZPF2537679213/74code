@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>总文章查询列表</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        var pase=1;
+        function returned() {
+            if(confirm("确认返回?")){
+                location.href="art.html?p=1";
+            }
+        }
+        function mytime(time) {
+            var mytime=new Date(time);
+            var y=mytime.getFullYear();
+            var m=mytime.getMonth()+1;
+            var d=mytime.getDay();
+            return y+"-"+m+"-"+d;
+        }
+        function mypase(type){
+            if(type==1){
+                if(pase==1){
+                   alert("已经是第一页!");
+                   return false;
+                }
+                location.href="artlist.html?p="+(pase-1);
+            }else{
+                location.href="artlist.html?p="+(pase+1);
+            }
+        }
+        jQuery(function () {
+            // 1.更新全局的页码信息
+            var params = location.search;
+            if (params != "") {
+                // 不再首页
+                pase = parseInt(params.split("=")[1]);
+            }
+            var psize=3;
+            // 方法分页接口查询数据
+            jQuery.getJSON("list", {
+                "pase": pase, // 当前页码
+                "psize": psize // 每页显示两条数据
+            }, function (data) {
+                if (data != null && data.succ == 1) {
+                    // 查询成功
+                    var html = "";
+                    for (var i = 0; i < data.list.length; i++) {
+                        // 文章对象的数据
+                        var art = data.list[i];
+                        html += "<tr>\n" +
+                            "    <td>\n" +
+                            art.id + "        \n" +
+                            "    </td>\n" +
+                            "    <td>\n" +
+                            "<a href='artread.html?id="+art.id+"'>"+art.title +"</a>"+"        \n" +
+                            "    </td>\n" +
+                            "    <td>\n" +
+                            art.username + "        \n" +
+                            "    </td>\n" +
+                            "    <td>\n" +
+                            mytime(art.createtime) + "        \n" +
+                            "    </td>\n" +
+                            "    <td>\n" +
+                            art.rcount + "        \n" +
+                            "    </td>\n" +
+                            "</tr>";
+                    }
+                    jQuery("#table").append(html);
+                    if(data.list.length==0){
+                        alert("已是最后一页!");
+                        location.href="artlist.html?p="+(pase-1);
+                    }
+                } else {
+                    alert("查询失败" + data.msg);
+                }
+            });
+        });
+    </script>
+</head>
+<body style="text-align: center;background-image: url('wzlb.bmp')">
+<h1>总文章列表</h1>
+<table id="table" style="width: 80%;margin: auto" border="1">
+    <tr>
+        <td>编号</td>
+        <td>标题</td>
+        <td>作者</td>
+        <td>发布时间</td>
+        <td>阅读量</td>
+    </tr>
+</table>
+<a href="javascript:mypase(1)"><strong>上一页</strong></a>
+<a href="javascript:mypase(2)"><strong>下一页</strong></a><hr>
+<input type="button" value="返 回" onclick="returned()">
+</body>
+</html>

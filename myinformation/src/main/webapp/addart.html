@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章添加</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function mysub(type) {
+            var title=jQuery("#title");
+            var content=jQuery("#content");
+            if(type==1){
+                if(title.val()==""||content.val()==""){
+                    alert("内容或标题不能为空!");
+                    title.focus();
+                    return false;
+                }else{
+                    jQuery.getJSON("addart",{"title":title.val(),"content":content.val()},function (data) {
+                        if(confirm("确认提交?")){
+                            if(data.succ>0){
+                                alert("添加成功!");
+                                location.href="art.html?p=1";
+                            }else{
+                                alert("提交失败:"+data.msg);
+                            }
+                        }
+                    });
+                }
+            }else{
+                if(confirm("确认清空?")){
+                    title.val("");
+                    content.val("");
+                }
+            }
+        }
+    </script>
+</head>
+<body style="text-align: center;margin-top: 50px;background-image: url('wzzx.bmp')">
+<h1>文章添加</h1>
+    <div>
+        标题:<input type="text" id="title"><p></p>
+        <textarea style="width: 700px;height: 800px" id="content"></textarea><p></p>
+        <input type="button" value="提 交" onclick="mysub(1)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="清 空" onclick="mysub(2)"><p></p>
+    </div>
+</body>
+</html>

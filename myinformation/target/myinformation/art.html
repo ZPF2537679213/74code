@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章界面</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function returned() {
+            if(confirm("确认退出?")){
+                location.href="login.html";
+            }
+        }
+        function mytime(time) {
+            var mytime=new Date(time);
+            var y=mytime.getFullYear();
+            var m=mytime.getMonth()+1;
+            var d=mytime.getDay();
+            return y+"-"+m+"-"+d;
+        }
+        function mydel(id){
+            if(confirm("确认删除?")){
+                if(id>0){
+                    jQuery.getJSON("mydel",{"id":id},function (data) {
+                        if(data.succ==1){
+                            alert("删除成功!");
+                            location.href=location.href;
+                            return true;
+                        }else{
+                            alert("删除失败:"+data.msg);
+                            return false;
+                        }
+                    });
+                }else{
+                   alert("操作不合法!");
+                }
+            }
+        }
+        var pase=1;
+        function mypase(type){
+            if(type==1){
+                if(pase==1){
+                    alert("已经是第一页!");
+                    return false;
+                }
+                location.href="art.html?p="+(pase-1);
+            }else{
+                location.href="art.html?p="+(pase+1);
+            }
+        }
+        jQuery(function () {
+            var p=location.search;
+            if(p!=null){
+                p=p.split("=")[1];
+                pase=parseInt(p);
+            }else{
+                alert("页面错误!");
+            }
+            var psize=3;
+            jQuery.getJSON("art",{"pase":pase,"psize":psize},function (data) {
+                if(data.succ>=0){
+                   var html="";
+                   for(var i=0;i<data.list.length;++i){
+                      var article=data.list[i];
+                       html += " <tr>\n" +
+                           "            <td>\n" +
+                           article.id + "                \n" +
+                           "            </td>\n" +
+                           "            <td>\n" +
+                           article.title + "                \n" +
+                           "            </td>\n" +
+                           "            <td>\n" +
+                           mytime(article.createtime) + "                \n" +
+                           "            </td>\n" +
+                           "            <td>\n" +
+                           article.recount + "                \n" +
+                           "            </td>\n" +
+                           "            <td>\n" +
+                           "                <a href='change.html?id="+article.id+"'><strong>修改</strong></a>&nbsp;&nbsp;<a href='javaScript:mydel("+article.id+");'><strong>删除</strong></a>\n" +
+                           "            </td>\n" +
+                           "        </tr>";
+                   }
+                   jQuery("#table1").append(html);
+                    if(data.list.length==0){
+                        alert("已是最后一页!");
+                        location.href="art.html?p="+(pase-1);
+                    }
+                }else{
+                    alert(data.msg);
+                    return false;
+                }
+            });
+        });
+    </script>
+</head>
+<body style="background-image: url('wzlb.bmp')">
+<div style="text-align: center">
+    <h1>我的文章</h1>
+    <a href="artlist.html"><strong>文章库</strong></a><hr>
+    <a href="addart.html"><strong>添加文章</strong></a>
+<table border="1" style="width: 80%;margin-left: 150px" id="table1">
+    <tr>
+        <td><strong>编号</strong></td>
+        <td><strong>标题</strong></td>
+        <td><strong>发布时间</strong></td>
+        <td><strong>阅读数</strong></td>
+        <td><strong>操作</strong></td>
+    </tr>
+</table>
+</div>
+<div style="text-align: center">
+    <a href="javascript:mypase(1)"><strong>上一页</strong></a>
+    <a href="javascript:mypase(2)"><strong>下一页</strong></a><p></p>
+<input type="button" value="退 出" onclick="returned()">
+</div>
+</body>
+</html>

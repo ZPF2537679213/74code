@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章详情</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function returned() {
+            if(confirm("确认返回?")){
+                location.href="artlist.html";
+            }
+        }
+        function mytime(time) {
+            var mytime=new Date(time);
+            var y=mytime.getFullYear();
+            var m=mytime.getMonth()+1;
+            var d=mytime.getDay();
+            return y+"-"+m+"-"+d;
+        }
+            jQuery(function () {
+                var p=location.search;
+                p=p.split("=")[1];
+                var id=parseInt(p);
+                jQuery.getJSON("artread",{"id":id},function (data) {
+                    if(data.succ==1){
+                        jQuery("#title").html(data.art.title);
+                        jQuery("#content").html(data.art.content);
+                        jQuery("#username").html(data.art.username);
+                        jQuery("#createtime").html(mytime(data.art.createtime));
+                        jQuery("#rcount").html(data.art.rcount);
+                    }else{
+                        alert("查询失败:"+data.msg);
+                    }
+                });
+                jQuery.getJSON("addcount", {"id": id}, function (data) {});
+            });
+    </script>
+</head>
+<body>
+<div style="margin-top: 50px">
+<h2 id="title" style="color: red">题目:</h2>
+<strong style="color: chartreuse">文章内容:</strong><div id="content">
+
+                        </div><hr>
+    <div style="text-align: right">
+        作者:<span id="username"></span>
+        &nbsp;&nbsp;
+        发布日期:<span id="createtime"></span>
+        &nbsp;&nbsp;
+        阅读量:<span id="rcount"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+<div style="text-align: center">
+<input type="button" value="返 回" onclick="returned()">
+</div>
+</body>
+</html>
