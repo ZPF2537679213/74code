@@ -1,0 +1,265 @@
+构造一个触发器audit_log，在向employees_test表中插入一条数据的时候，触发插入相关的数据到audit中。
+CREATE TABLE employees_test(
+ID INT PRIMARY KEY NOT NULL,
+NAME TEXT NOT NULL,
+AGE INT NOT NULL,
+ADDRESS CHAR(50),
+SALARY REAL
+);
+CREATE TABLE audit(
+EMP_no INT NOT NULL,
+NAME TEXT NOT NULL
+);
+触发器：trigger
+代码：
+create trigger audit_log
+            after
+            insert
+            on employees_test
+            for each row
+            begin
+            insert into audit values(new.ID,new.NAME);
+            end;
+存在actor表，包含如下列信息：
+CREATE TABLE  actor  (
+   actor_id  smallint(5)  NOT NULL PRIMARY KEY,
+   first_name  varchar(45) NOT NULL,
+   last_name  varchar(45) NOT NULL,
+   last_update  datetime NOT NULL);
+现在在last_update后面新增加一列名字为create_date, 类型为datetime, NOT NULL，默认值为'2020-10-01 00:00:00'
+代码：
+alter table actor add create_date datetime not null default '2020-10-01 00:00:00';
+给定一个数组arr，返回子数组的最大累加和
+例如，arr = [1, -2, 3, 5, -2, 6, -1]，所有子数组中，[3, 5, -2, 6]可以累加出最大的和12，所以返回12.
+题目保证没有全为负数的数据
+[要求]
+时间复杂度为O(n)O(n)，空间复杂度为O(1)O(1)
+import java.util.*;
+
+
+public class Solution {
+    /**
+     * max sum of the subarray
+     * @param arr int整型一维数组 the array
+     * @return int整型
+     */
+    public int maxsumofSubarray (int[] arr) {
+        int max=arr[0];
+        for(int i=1;i<arr.length;++i){
+          arr[i]=Math.max(arr[i]+arr[i-1],arr[i]);
+          max=Math.max(max,arr[i]);
+        }
+        return max;
+    }
+}
+有一个整数数组，请你根据快速排序的思路，找出数组中第K大的数。
+
+给定一个整数数组a,同时给定它的大小n和要找的K(K在1到n之间)，请返回第K大的数，保证答案存在。
+import java.util.*;
+
+public class Solution {
+    public int findKth(int[] a, int n, int K) {
+        int maxnum=group(a,n,K,0,n-1);
+        return maxnum;
+    }
+    public int quickSort(int start,int end,int k,int[]num,int n){
+        int tmp=num[start];
+        while(start<end){
+            while(end>start&&num[end]<=tmp){
+                end--;
+            }
+            num[start]=num[end];
+        while(start<end&&num[start]>=tmp){
+                start++;
+             }
+            num[end]=num[start];
+        }
+        num[end]=tmp;
+        return end;
+    }
+    public int group(int[]num,int n,int k,int start,int end){
+        if(start>end){
+          return -1;
+        }
+        int mid=quickSort(start,end,k,num,n);
+        if(mid==k-1){
+          return num[mid];
+        }else if(mid<k-1){
+          return group(num,n,k,mid+1,end);
+        }else{
+            return group(num,n,k,start,mid-1);
+        }
+    }
+}
+给出一个有n个元素的数组S，S中是否有元素a,b,c满足a+b+c=0？找出数组S中所有满足条件的三元组。
+注意：
+三元组（a、b、c）中的元素必须按非降序排列。（即a≤b≤c）
+解集中不能包含重复的三元组。
+import java.util.*;
+public class Solution {
+    public ArrayList<ArrayList<Integer>>list=new ArrayList<>();
+    public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
+        Arrays.sort(num);
+        zero(num,0,new ArrayList<>(),0);
+        return list;
+    }
+    public void zero(int[]num,int index,ArrayList<Integer>l,int sum){
+        if(sum==0&&l.size()==3){
+          if(!list.contains(l)){
+            list.add(new ArrayList<>(l));
+          }
+          return;
+        }
+        if(l.size()==3||index==num.length){
+          return;
+        }
+        for(int i=index;i<num.length;++i){
+            l.add(num[i]);
+            zero(num,i+1,l,sum+num[i]);
+            l.remove(l.size()-1);
+        }
+    }
+}
+给定一个二叉树，返回该二叉树的之字形层序遍历，（第一层从左向右，下一层从右向左，一直这样交替）
+import java.util.*;
+
+/*
+ * public class TreeNode {
+ *   int val = 0;
+ *   TreeNode left = null;
+ *   TreeNode right = null;
+ * }
+ */
+
+public class Solution {
+    /**
+     * 
+     * @param root TreeNode类 
+     * @return int整型ArrayList<ArrayList<>>
+     */
+    public ArrayList<ArrayList<Integer>> zigzagLevelOrder (TreeNode root) {
+         ArrayList<ArrayList<Integer>>list=new ArrayList<>();
+        if(root==null){
+          return list;
+        }
+        Deque<TreeNode>queue=new LinkedList<>();
+        queue.offer(root);
+        int i=1;
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            ArrayList<Integer>l=new ArrayList<>();
+            while(size>0){
+                TreeNode node=queue.poll();
+                if(i%2==0){
+                  l.add(0,node.val);
+                }else{
+                  l.add(node.val);
+                }
+                if(node.left!=null){
+                  queue.offer(node.left);
+                }
+                if(node.right!=null){
+                  queue.offer(node.right);
+                }
+                size--;
+            }
+            i++;
+            list.add(new ArrayList<>(l));
+        }
+        return list;
+    }
+}
+给定一个二叉树，返回该二叉树层序遍历的结果，（从左到右，一层一层地遍历）
+import java.util.*;
+
+/*
+ * public class TreeNode {
+ *   int val = 0;
+ *   TreeNode left = null;
+ *   TreeNode right = null;
+ * }
+ */
+
+public class Solution {
+    /**
+     * 
+     * @param root TreeNode类 
+     * @return int整型ArrayList<ArrayList<>>
+     */
+    public ArrayList<ArrayList<Integer>> levelOrder (TreeNode root) {
+        ArrayList<ArrayList<Integer>>list=new ArrayList<>();
+        if(root==null){
+          return list;
+        }
+        Deque<TreeNode>queue=new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            ArrayList<Integer>l=new ArrayList<>();
+            while(size>0){
+                TreeNode node=queue.poll();
+                l.add(node.val);
+                if(node.left!=null){
+                  queue.offer(node.left);
+                }
+                if(node.right!=null){
+                  queue.offer(node.right);
+                }
+                size--;
+            }
+            list.add(new ArrayList<>(l));
+        }
+        return list;
+    }
+}
+将两个有序的链表合并为一个新链表，要求新的链表是通过拼接两个链表的节点来生成的，且合并后新链表依然有序。
+import java.util.*;
+
+/*
+ * public class ListNode {
+ *   int val;
+ *   ListNode next = null;
+ * }
+ */
+
+public class Solution {
+    /**
+     * 
+     * @param l1 ListNode类 
+     * @param l2 ListNode类 
+     * @return ListNode类
+     */
+    public ListNode mergeTwoLists (ListNode l1, ListNode l2) {
+        if(l1==null){
+          return l2;
+        }
+        if(l2==null){
+          return l1;
+        }
+        ListNode head=null;
+        ListNode cur=head;
+        while(l1!=null&&l2!=null){
+            if(l1.val<l2.val){
+              if(head==null){
+                head=l1;
+                cur=head;
+              }else{
+                cur.next=l1;
+                cur=cur.next;
+              }
+              l1=l1.next;
+            }else{
+                if(head==null){
+                head=l2;
+                cur=head;
+              }else{
+                cur.next=l2;
+                cur=cur.next;
+              }
+              l2=l2.next;
+            }
+        }
+        cur.next=l1==null?l2:l1;
+        return head;
+    }
+}
