@@ -1,0 +1,95 @@
+编程题一：
+电话号码：
+import java.util.*;
+public class Main{
+    public static HashMap<Integer,String>map=new HashMap<>();
+    static{
+        map.put(1,"");
+        map.put(2,"ABC");
+        map.put(3,"DEF");
+        map.put(4,"GHI");
+        map.put(5,"JKL");
+        map.put(6,"MNO");
+        map.put(7,"PQRS");
+        map.put(8,"TUV");
+        map.put(9,"WXYZ");
+        map.put(0,"");
+    }
+    public static void main(String[]args){
+        Scanner sc=new Scanner(System.in);
+        while(sc.hasNext()){
+            ArrayList<String>list=new ArrayList<>();
+            int n=sc.nextInt();
+            for(int i=0;i<n;++i){
+               String str=sc.next();
+               StringBuilder ss=new StringBuilder();
+               for(int j=0;j<str.length();++j){
+                  char x=str.charAt(j);
+                  if(x>='A'&&x<='Z'){
+                    for(int k=0;k<10;++k){
+                       if(map.get(k).contains(x+"")){
+                         ss.append(k);
+                          break;
+                       }
+                    }
+                  }else{
+                     if(x>='0'&&x<='9'){
+                       ss.append(x);
+                     }
+                  }
+                   if(ss.length()==3){
+                     ss.append("-");
+                   }
+               }
+                if(!list.contains(ss.toString())){
+                  list.add(ss.toString());
+                }
+            }
+            Collections.sort(list);
+            for(String x:list){
+               System.out.println(x);
+            }
+            System.out.println();
+        }
+    }
+}
+编程题2
+求和：
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sc=new Scanner(System.in);
+        while(sc.hasNext()){
+            ArrayList<ArrayList<Integer>>list=new ArrayList<>();
+            int n=sc.nextInt();
+            int m=sc.nextInt();
+            int[]num=new int[n+1];
+            for(int i=1;i<n+1;++i){
+               num[i]=i;
+            }
+            dfs(num,1,n,m,0,list,new ArrayList<>());
+            for(ArrayList<Integer>x:list){
+               String str="";
+                for(int y:x){
+                   str=str+y+" ";
+                }
+                str=str.trim();
+                System.out.println(str);
+            }
+        }
+    }
+    public static void dfs(int[]num,int index,int n,int m,int sum,ArrayList<ArrayList<Integer>>list,ArrayList<Integer>l){
+        if(sum==m){
+          list.add(new ArrayList<>(l));
+          return;
+        }
+        if(sum>m){
+          return;
+        }
+        for(int i=index;i<n+1;++i){
+           l.add(num[i]);
+           dfs(num,i+1,n,m,sum+num[i],list,l);
+           l.remove(l.size()-1);
+        }
+    }
+}
