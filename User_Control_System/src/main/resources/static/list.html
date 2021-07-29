@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户信息管理系统</title>
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="js/jquery-2.1.0.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!-- <script src="js/bootstrap.min.js"></script>-->
+    <style type="text/css">
+        td, th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3 style="text-align: center;margin-bottom: 50px;">用户信息列表</h3>
+    <div style="float: left;">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="ipt_name">姓名</label>
+                <input name="name" type="text" class="form-control" id="ipt_name">
+            </div>
+            <div class="form-group">
+                <label for="ipt_address">籍贯</label>
+                <input name="address" type="text" class="form-control" id="ipt_address">
+            </div>
+            <div class="form-group">
+                <label for="ipt_email">邮箱</label>
+                <input name="email" type="email" class="form-control" id="ipt_email">
+            </div>
+            <button id="submit1" type="button" class="btn btn-default" onclick="oncli()">查询</button>
+        </form>
+    </div>
+    <div style="float: right;margin-bottom: 15px">
+        <a class="btn btn-primary" href="add.html">添加用户</a>
+        <a id="delete" class="btn btn-primary" href="javascript:del2()">删除选中</a>
+    </div>
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+            <th>选择</th>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>籍贯</th>
+            <th>QQ</th>
+            <th>邮箱</th>
+            <th>超管</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="info">
+<!--                <tr>-->
+<!--&lt;!&ndash;                    <th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input id="1" type="checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>1</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>张三</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>男</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>18</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>北京</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>295628068</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>295628068@qq.com</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>是</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <a class="btn btn-default btn-sm" href="update.hytml?id=">修改</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <a class="btn btn-default btn-sm" href="javascript:void(0);">删除</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </th>&ndash;&gt;-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--&lt;!&ndash;                    <th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input id="2" type="checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>2</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>李四</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>男</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>18</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>西安</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>295628068</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>295628068@qq.com</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>否</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <a class="btn btn-default btn-sm" href="update.hytml?id=">修改</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <a class="btn btn-default btn-sm" href="javascript:void(0);">删除</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </th>&ndash;&gt;-->
+<!--                </tr>-->
+        </tbody>
+    </table>
+    <div>
+        <nav aria-label="Page navigation">
+            <ul id="all" class="pagination">
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+<script>
+    //查询的参数变量定义
+    var name="";
+    var address="";
+    var email="";
+    var cpage=1;//当前页码
+    var psize=4;//每页显示4条,limit查询时：（当前页-1）*显示条数
+    var count=0;
+    getdata();
+    function oncli(){
+        name=jQuery("#ipt_name").val();
+        address=jQuery("#ipt_address").val();
+        email=jQuery("#ipt_email").val();
+        getdata();
+    }
+    function cliPage(cp){
+        cpage=cp;
+        getdata();
+    }
+    function getdata(){
+        jQuery.getJSON(
+            "/user/list",
+            {
+                "name":name,
+                "address":address,
+                "email":email,
+                "cpage":cpage,
+                "psize":psize
+            },
+            function (result) {
+                if(result!=null){
+                    if(result.data.data.list!=null&&result.data.data.list.length>0){
+                        //列表数据
+                        //userinfo.isadmin==1?"是":"否"
+                        var listHtml="";
+                        count=result.data.data.tcount;
+                        for(var i=0;i<result.data.data.list.length;++i){
+                            var userinfo=result.data.data.list[i];
+                            listHtml+='<tr>'
+                                +'  <th>\n' +
+                                '                        <input id="'+userinfo.id+'" type="checkbox" >\n' +
+                                '                    </th>\n' +
+                                '                    <th>'+userinfo.id+'</th>\n' +
+                                '                    <th>'+userinfo.name+'</th>\n' +
+                                '                    <th>'+userinfo.sex+'</th>\n' +
+                                '                    <th>'+userinfo.age+'</th>\n' +
+                                '                    <th>'+userinfo.address+'</th>\n' +
+                                '                    <th>'+userinfo.qq+'</th>\n' +
+                                '                    <th>'+userinfo.email+'</th>\n' +
+                                '                    <th>'+(userinfo.isadmin==1?"是":"否")+'</th>\n' +
+                                '                    <th>\n<a class="btn btn-default btn-sm" href="update.html?id='+userinfo.id+'">修改</a>\n' +
+                                '                        <a class="btn btn-default btn-sm" href="javascript:del('+userinfo.id+');">删除</a>\n' +
+                                '                    </th>\n'
+                                +'</tr>';
+
+                        }
+                        //分页数据
+                        jQuery("#info").html(listHtml);
+                        var tpage=result.data.data.tpage;
+                        var pageHtml="";
+                        if(tpage>1){
+                            for(var j=1;j<=tpage;++j){
+                                if(j==cpage){
+                                    pageHtml+='<li class="active"><a href="javascript:cliPage('+j+');">'+j+'</a></li>\n';
+                                }else{
+                                    pageHtml+='<li><a href="javascript:cliPage('+j+');">'+j+'</a></li>\n';
+                                }
+                            }
+                            pageHtml+=' <li><a href="javascript:cliPage('+(cpage+1)+');" aria-label="Next">\n' +
+                                '                                    <span aria-hidden="true">&raquo;</span></a>\n' +
+                                '                                </li>\n' +
+                                '                                <span style="font-size: 20px;margin-left: 10px;"> 共'+result.data.data.tcount+' 条记录，共 '+tpage+' 页\n' +
+                                '                                  </span>';
+
+                        }
+                        jQuery("#all").html(pageHtml);
+                    }
+                }
+            }
+        );
+    }
+    function del(id) {
+        if(confirm("是否进行删除？")){
+            jQuery.getJSON(
+                "/user/del",
+                {"id":id},
+                function (result) {
+                    if(result!=null&&result.data.data>0){
+                        alert("删除成功！");
+                        location.href=location.href;
+                    }else{
+                        alert(result.data.message);
+                    }
+                }
+            );
+        }
+    }
+    function del2(){//删除多条信息
+      var ids="";
+      if(confirm("是否确认删除？")){
+          jQuery("#info").find("tr").each(function (i) {//先根据info拿到table的数据体，再通过tr拿到每一行，因为有多行，所以each循环遍历
+              if(jQuery(this).find("th:first").find("input").prop("checked")){
+                  ids+=(jQuery(this).find("th:first").find("input").attr("id"))+",";
+              }
+          });
+          if(ids!=""){
+            jQuery.getJSON(
+                "/user/del2",
+                {"ids":ids},
+                function (result) {
+                    if(result.data.data>0){
+                        alert("恭喜删除成功！");
+                        location.href=location.href;
+                    }else{
+                        alert("很遗憾，删除失败！");
+                    }
+                }
+            );
+          }else{
+              alert("请先选择要删除的数据！");
+          }
+      }
+    }
+
+</script>
+
+</html>

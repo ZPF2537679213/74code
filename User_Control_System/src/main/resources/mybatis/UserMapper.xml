@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <insert id="add" parameterType="com.example.demo.model.UserInfo">
+        insert into userinfo(username,name,password,sex,age,address,qq,email
+        <if test="isadmin!=null">
+        ,isadmin
+    </if>
+    )
+    values(#{username},#{name},#{password},#{sex},#{age},#{address},#{qq},#{email}
+    <if test="isadmin!=null">
+        ,#{isadmin}
+    </if>
+    )
+</insert>
+    <update id="updateLoginTime" parameterType="java.lang.Integer">
+        update userinfo set logintime=now() where id=#{id}
+    </update>
+    <update id="updateFailCount" parameterType="java.lang.Object" >
+        update userinfo set failcount=#{count} where username=#{username}
+    </update>
+    <update id="update" parameterType="com.example.demo.model.UserInfo">
+        update userinfo set
+        name=#{name},
+        sex=#{sex},
+        age=#{age},
+        address=#{address},
+        qq=#{qq},
+        email=#{email},
+        isadmin=#{isadmin}
+        where id=#{id}
+    </update>
+    <delete id="del">
+        delete from userinfo
+        <where>
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+        <if test="isadmin!=null">
+            and isadmin=#{isadmin}
+        </if>
+        </where>
+    </delete>
+    <delete id="del2">
+        delete from userinfo where id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <select id="login" parameterType="java.lang.String" resultType="com.example.demo.model.UserInfo">
+        select * from userinfo where username=#{username} and password=#{password}
+    </select>
+    <select id="getCountByUsername" resultType="java.lang.Integer">
+        select failcount from userinfo where username=#{username}
+    </select>
+    <select id="getUserByUsername" resultType="com.example.demo.model.UserInfo">
+        select * from userinfo where username=#{username}
+    </select>
+    <select id="getUser" resultType="com.example.demo.model.UserInfo">
+        select * from userinfo where id=#{id}
+    </select>
+    <select id="getListByPage" resultType="com.example.demo.model.UserInfo">
+        select * from userinfo
+        <where>
+            <if test="name!=null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="address!=null">
+                and address like concat('%',#{address},'%')
+            </if>
+            <if test="email!=null">
+                and email  like concat('%',#{email},'%')
+            </if>
+            <if test="isadmin!=null">
+                and isadmin=#{isadmin}
+            </if>
+        </where>
+        limit #{skipCount},#{psize}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from userinfo
+        <where>
+            <if test="name!=null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="address!=null">
+                and address like concat('%',#{address},'%')
+            </if>
+            <if test="email!=null">
+                and email  like concat('%',#{email},'%')
+            </if>
+            <if test="isadmin!=null">
+                and isadmin=#{isadmin}
+            </if>
+        </where>
+    </select>
+</mapper>
